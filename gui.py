@@ -1,5 +1,5 @@
 from tkinter import *
-#from client import *
+from client import *
 
 root = Tk()
 root.title("Whisper")
@@ -33,7 +33,7 @@ def loginFrame():
     
     password = Entry(lf, font = font, width = 26, bg = bg, fg = placeholderFg, relief = 'solid', highlightcolor = color, highlightbackground = color, highlightthickness = 1, borderwidth =3)
     password.insert(0, "Password  ")
-    placeHolder(password, "Password  ", "♥")
+    placeHolder(password, "Password  ", "♫") # ☯ ☠ ☣ ☸ ☃ ✡ ✯ ✵ ❃ ❅ ♘ ✰ ꉩ ♬ ♫
 
     # Button
     loginButton = Button(lf, font = ("book antiqua", 13, 'bold'), text = "Login", relief = "flat", padx = 22, bg = bg, fg = color, command = lambda username = username, ps=password : loginAccount(username.get(), ps.get()))
@@ -69,11 +69,11 @@ def signupFrame():
    
     password = Entry(sf, font = font, width = 26, bg = bg, fg = placeholderFg, relief = 'solid', highlightcolor = color, highlightbackground = color, highlightthickness = 1, borderwidth =3)
     password.insert(0, "Password  ")
-    placeHolder(password, "Password  ", "♥")
+    placeHolder(password, "Password  ", "♫")
     
     rePassword = Entry(sf, font = font, width = 26, bg = bg, fg = placeholderFg, relief = 'solid', highlightcolor = color, highlightbackground = color, highlightthickness = 1, borderwidth =3)
     rePassword.insert(0, "Comfirm Password  ")
-    placeHolder(rePassword, "Comfirm Password  ", "♥")
+    placeHolder(rePassword, "Comfirm Password  ", "♫")
     
     email = Entry(sf, font = font, width = 26, bg = bg, fg = placeholderFg, relief = 'solid', highlightcolor = color, highlightbackground = color, highlightthickness = 1, borderwidth =3)
     email.insert(0, "Email  ")
