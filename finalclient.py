@@ -147,7 +147,7 @@ def loginFrame():
     global lf
 
     # Login frame create
-    lf = Frame(root,bg = bg, bd = 0, width = 800, height = 800, relief = "solid")
+    lf = Frame(root, bg = bg, bd = 0, width = 800, height = 800, relief = "solid")
     lf.config(highlightcolor = color, highlightbackground = color, highlightthickness = 2, borderwidth = 2)
 
     # Title
@@ -163,7 +163,7 @@ def loginFrame():
     placeHolder(password, "Password  ", "♫")
 
     # Button
-    loginButton = Button(lf, font = ("book antiqua", 13, 'bold'), text = "Login", relief = "flat", padx = 22, bg = bg, fg = color, command = lambda username = username, ps=password : loginAccount(username.get(), ps.get()))
+    loginButton = Button(lf, font = ("book antiqua", 13, 'bold'), text = "Login", relief = "flat", padx = 22, bg = bg, fg = color, command = lambda username = username, ps = password : loginAccount(username.get(), ps.get()))
     signupButton = Button(lf, font = ("book antiqua", 13, 'bold'), text = "Signup", relief = "flat", padx = 18, bg = bg, fg = color, command = lambda : changeFrame(lf, signupFrame))
 
     # Padding Bottom
@@ -189,15 +189,15 @@ def signupFrame():
     title = Label(sf, text = 'Signup ', font = ('times', 26, 'bold', 'italic'), padx = 150, pady = 20, bg = bg, fg = color)
 
     # Entry field
-    username = Entry(sf, font = font, width = 26, bg = bg, fg = placeholderFg, relief = 'solid', highlightcolor = color, highlightbackground = color, highlightthickness = 1, borderwidth =3)
+    username = Entry(sf, font = font, width = 26, bg = bg, fg = placeholderFg, relief = 'solid', highlightcolor = color, highlightbackground = color, highlightthickness = 1, borderwidth = 3)
     username.insert(0, "Username  ")
     placeHolder(username, "Username  ")
    
-    password = Entry(sf, font = font, width = 26, bg = bg, fg = placeholderFg, relief = 'solid', highlightcolor = color, highlightbackground = color, highlightthickness = 1, borderwidth =3)
+    password = Entry(sf, font = font, width = 26, bg = bg, fg = placeholderFg, relief = 'solid', highlightcolor = color, highlightbackground = color, highlightthickness = 1, borderwidth = 3)
     password.insert(0, "Password  ")
     placeHolder(password, "Password  ", "♫")
     
-    rePassword = Entry(sf, font = font, width = 26, bg = bg, fg = placeholderFg, relief = 'solid', highlightcolor = color, highlightbackground = color, highlightthickness = 1, borderwidth =3)
+    rePassword = Entry(sf, font = font, width = 26, bg = bg, fg = placeholderFg, relief = 'solid', highlightcolor = color, highlightbackground = color, highlightthickness = 1, borderwidth = 3)
     rePassword.insert(0, "Comfirm Password  ")
     placeHolder(rePassword, "Comfirm Password  ", "♫")
     
@@ -216,7 +216,7 @@ def signupFrame():
     title.grid(row = 0, column = 1)
     username.grid(row = 1, column = 0, columnspan = 4, ipady = 7, ipadx = 30)
     password.grid(row = 2, column = 0, columnspan = 4, pady = 30, ipady = 7, ipadx = 30)
-    rePassword.grid(row = 3, column = 0, columnspan = 4, ipady = 7,ipadx = 30)
+    rePassword.grid(row = 3, column = 0, columnspan = 4, ipady = 7, ipadx = 30)
     email.grid(row = 4, column = 0, columnspan = 4, pady = 30, ipady = 7, ipadx = 30)
     signupButton.grid(row = 5, column = 1, columnspan = 2)
     backButton.grid(row = 6, column = 1, columnspan = 2, pady = 30)
@@ -253,8 +253,8 @@ def navigationFrame():
 
     scrollBar.pack(side = RIGHT, fill = Y)
     scrollBar.config(command = user_list.yview)
-    searchBar.pack(side = TOP, pady = 5)
-    user_list.pack(side = LEFT, fill = BOTH)
+    searchBar.pack(side = TOP, ipady = 7)
+    user_list.pack(side = LEFT, fill = BOTH, pady = 2)
     navFrame.pack(side = LEFT, padx = 10)
 
 def chatFrame():
@@ -289,44 +289,111 @@ def chatFrame():
     chatFrame.pack(side = LEFT, padx = 30)
 
 def settingFrame():
+    setFrame = Frame(root, bg = bg, bd = 0, width = 300, height = 500, relief = "solid")
+    setFrame.config(highlightcolor = color, highlightbackground = color, highlightthickness = 2, borderwidth = 2)
+    setFrame.pack(side=LEFT, padx = 30)
 
+    profileLabel = Label(setFrame, text = "Profile", font = ('times', 24, 'bold', 'italic'), padx = 150, pady = 20, bg = bg, fg = color)
+    userLabel = Label(setFrame, text = "         Username : ", font = ("book antiqua", 14, 'bold'), bg = bg, fg = color)
+    emailLabel =  Label(setFrame, text = "  Email : ", font = ("book antiqua", 14, 'bold'), bg = bg, fg = color)
+    setLabel = Label(setFrame, text = "Setting", font = ('times', 24, 'bold', 'italic'), padx = 150, pady = 20, bg = bg, fg = color)
+    modLabel = Label(setFrame, text = "Mode :", font = ("book antiqua", 14, 'bold'), bg = bg, fg = color)
+    themeLabel = Label(setFrame, text = "   Themes :", font = ("book antiqua", 14, 'bold'), bg = bg, fg = color)
+    changePwdLabel = Label(setFrame, text = "Change Password", font = ('times', 24, 'bold', 'italic'), padx = 150, pady = 20, bg = bg, fg = color)
+
+    profileLabel.grid(row = 0, column = 1, columnspan = 4)
+    userLabel.grid(row = 1, column = 1, pady = 15)
+    emailLabel.grid(row = 2, column = 1)
+    setLabel.grid(row = 3, column = 1, columnspan = 4)
+    modLabel.grid(row = 4, column = 1, pady = 15)
+    themeLabel.grid(row = 5, column = 1)
+    changePwdLabel.grid(row = 6, column = 1, columnspan = 4, pady = 15)
+
+    # radio button for mode
     def click_1():
         a = radio_button.get()
         if a == 1:
             root.config(bg = wbg)
-            navFrame.config(bg = wbg)
-            chatFrame.config(bg = wbg)
-            user_list.config(bg = wbg)
             setFrame.config(bg = wbg)
             setLabel.config(bg = wbg)
+            profileLabel.config(bg = wbg)
+            userLabel.config(bg = wbg)
+            emailLabel.config(bg = wbg)
             modLabel.config(bg = wbg)
+            themeLabel.config(bg = wbg)
+            changePwdLabel.config(bg = wbg)
+            currentPwd.config(bg = wbg)
+            newPwd.config(bg = wbg)
+            comfirmPwd.config(bg = wbg)
+            changePwdButton.config(bg = wbg)
+            logoutButton.config(bg = wbg)
 
         elif a == 2:
             root.config(bg = bg)
-            navFrame.config(bg = bg)
-            chatFrame.config(bg = bg)
-            user_list.config(bg = bg)
             setFrame.config(bg = bg)
             setLabel.config(bg = bg)
+            profileLabel.config(bg = bg)
+            userLabel.config(bg = bg)
+            emailLabel.config(bg = bg)
             modLabel.config(bg = bg)
-
-    setFrame = Frame(root, bg = bg, bd = 0, width = 300, height = 500, relief = "solid")
-    setFrame.config(highlightcolor = color, highlightbackground = color, highlightthickness = 2, borderwidth = 2)
-    setFrame.pack(side = LEFT, padx = 30)
-
-    setLabel = Label(setFrame, text = "Setting", font = ('times', 24, 'bold', 'italic'), padx = 150, pady = 20, bg = bg, fg = color)
-    modLabel = Label(setFrame, text = "Mode", font = ('times', 14, 'bold'), bg = bg, fg = color)
-    setLabel.grid(row = 0, column = 1, columnspan = 3)
-    modLabel.grid(row = 1, column = 1)
+            themeLabel.config(bg = bg)
+            changePwdLabel.config(bg = bg)
+            currentPwd.config(bg = bg)
+            newPwd.config(bg = bg)
+            comfirmPwd.config(bg = bg)
+            changePwdButton.config(bg = bg)
+            logoutButton.config(bg = bg)
 
     radio_button = IntVar()
-
     rb1 = ttk.Radiobutton(setFrame, text = "Light Mode", variable = radio_button, value = 1, command = click_1)
     rb2 = ttk.Radiobutton(setFrame, text = "Dark Mode", variable = radio_button, value = 2, command = click_1, style = "Wild.TRadiobutton")
     sty = ttk.Style()
     sty.configure("Wild.TRadiobutton", background = bg, foreground = wbg)
-    rb1.grid(row = 1, column = 2, sticky = "e")
-    rb2.grid( row = 1, column = 3, sticky = "w")
+    rb1.grid(row = 4, column = 2, columnspan = 1, sticky = "e")
+    rb2.grid(row = 4, column = 3, columnspan = 1, sticky = "w")
+
+    # combo box for theme
+    def select_item(event):
+        a = theme.get()
+        if a == "Theme-1":
+            root.config(background = "light blue")
+
+        elif a == "Theme-2":
+            root.config(background = "gray")
+
+        elif a == "Theme-3":
+            root.config(background = "aqua")
+
+    theme = ttk.Combobox(setFrame, values = ("Theme-1", "Theme-2", "Theme-3"), font = font, justify = CENTER, width = 14, height = 40)
+    theme.grid(row = 5, column = 2, columnspan = 2)
+    theme.set("Select Themes")
+    theme.bind("<<ComboboxSelected>>", select_item)
+
+    # Change Password Entry
+    currentPwd = Entry(setFrame, font = font, width = 26, bg = bg, fg = placeholderFg, relief = 'solid', highlightcolor = color, highlightbackground = color, highlightthickness = 1, borderwidth = 3)
+    currentPwd.insert(0, "Current Password")
+    placeHolder(currentPwd, "Current Password")
+   
+    newPwd = Entry(setFrame, font = font, width = 26, bg = bg, fg = placeholderFg, relief = 'solid', highlightcolor = color, highlightbackground = color, highlightthickness = 1, borderwidth = 3)
+    newPwd.insert(0, "New Password")
+    placeHolder(newPwd, "New Password", "♫")
+    
+    comfirmPwd = Entry(setFrame, font = font, width = 26, bg = bg, fg = placeholderFg, relief = 'solid', highlightcolor = color, highlightbackground = color, highlightthickness = 1, borderwidth = 3)
+    comfirmPwd.insert(0, "Comfirm Password")
+    placeHolder(comfirmPwd, "Comfirm Password", "♫")
+
+    currentPwd.grid(row = 7, column = 0, columnspan = 4, ipady = 7, ipadx = 30)
+    newPwd.grid(row = 8, column = 0, columnspan = 4, pady = 30, ipady = 7, ipadx = 30)
+    comfirmPwd.grid(row = 9, column = 0, columnspan = 4, ipady = 7, ipadx = 30)
+
+    # Button
+    changePwdButton = Button(setFrame, text = "Change", font = ("book antiqua", 13, 'bold'), relief = "flat", padx = 10, bg = bg, fg = color)
+    logoutButton = Button(setFrame, text = "Logout", font = ("book antiqua", 13, 'bold'), relief = "flat", padx = 24, bg = bg, fg = color)
+    backButton_2 = Button(setFrame, text = "Back", font = ("book antiqua", 13, 'bold'), relief = "flat", padx = 24, bg = bg, fg = color)
+
+    changePwdButton.grid(row = 9, column = 3, sticky = "e")
+    backButton_2.grid(row = 10, column = 1, sticky = "e")
+    logoutButton.grid(row = 10, column = 2, pady = 40)
 
 #for Place holder
 def placeHolder(ent, plce = "" , s = ""):
