@@ -15,6 +15,11 @@ unpad = lambda s: s[0:-ord(s[-1:])]
 # We use the symmetric Encryption So this password have to be the same in both client and server
 password = "852020"
 
+conversation = []
+reportTF = False
+feedbackTF = False
+suggestionTF = False
+
 def encrypt(raw, password):
     private_key = hashlib.sha256(password.encode("utf-8")).digest()
     raw = pad(raw)
@@ -43,7 +48,7 @@ def handleClient(client):
         connetionStart = bytes.decode(decrypt(client.recv(bufsiz),password))
         data = json.loads(connetionStart)
         # to signup
-        if data["to"] == "signup":
+        if data["to"] == "//signup":
             cur.execute(dbQuery["checkUsername"].format(data["username"]))
             checkUsername = cur.fetchall()
             #check wherethere username is avaliable 
@@ -56,7 +61,7 @@ def handleClient(client):
                 cur.execute(dbQuery["signup"].format(data["username"],data["email"],data["ps"]))
                 con.commit()
         # to login
-        elif data["to"] == "login":
+        elif data["to"] == "//login":
             cur.execute(dbQuery["login"].format(data["username"],data["ps"]))
             login = cur.fetchall()
             # check wherethere username or password is correct
@@ -71,8 +76,49 @@ def handleClient(client):
                 loginAccessReply = json.dumps(loginAccessReply)
                 client.send(encrypt(loginAccessReply,password))
         # to AI
-        elif data["to"] =="helpCenter":
-            pass
+        elif data["to"] =="//helpCenter":
+            global conversation, reportTF, feedbackTF, suggestionTF
+            conversation.append(data["msg"])
+            if data["msg"] == "Restart":
+                aiReply = {"to":"aiReply","msg":"AI has restarted."}
+                client.send(encrypt(json.dumps(aiReply),password))
+                conversation = []
+                reportTF = False
+                feedbackTF = False
+                suggestionTF = False
+            if reportTF:
+                # Db Insert
+                aiReply = {"to":"aiReply","msg":"Have a great day. Bye!"}
+                client.send(encrypt(json.dumps(aiReply),password))
+                conversation = []
+                reportTF = False
+            if feedbackTF:
+                #db insert
+                aiReply = {"to":"aiReply","msg":"Thank you for your Feedback!"}
+                client.send(encrypt(json.dumps(aiReply),password))
+                conversation = []
+                feedbackTF = False
+            if suggestionTF:
+                # db insert
+                aiReply = {"to":"aiReply","msg":"Your suggestion are very much appreciated!"}
+                client.send(encrypt(json.dumps(aiReply),password))
+                conversation = []
+                suggestionTF = False 
+            if len(conversation)==1 and conversation[0]:
+                aiReply = {"to":"aiReply","msg":"Hi! This is your assistant Echo. How can I help you?\nType 'Report' for Report.\nType 'Feedback' for Feedback.\nType 'Suggestion' for Suggestion\nIf you come accross some error, please sent 'Restart'."}
+                client.send(encrypt(json.dumps(aiReply),password))
+            if len(conversation)==2 and conversation[1]=="Report":
+                aiReply = {"to":"aiReply","msg":"Please Type who do you want to report and why?(Please type username specifically)"}
+                client.send(encrypt(json.dumps(aiReply),password))
+                reportTF = True
+            if len(conversation)==2 and conversation[1]=="Feedback":
+                aiReply = {"to":"aiReply","msg":"How is our app?"}
+                client.send(encrypt(json.dumps(aiReply),password))
+                feedbackTF = True
+            if len(conversation)==2 and conversation[1]=="Suggestion":
+                aiReply={"to":"aiReply","msg":"What is your Suggestion"}
+                client.send(encrypt(json.dumps(aiReply),password))
+                suggestionTF = True
         # Client Disconnect 
         elif data["to"] =="//clientDisconnect":
             client.close()

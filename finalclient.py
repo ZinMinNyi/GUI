@@ -62,8 +62,16 @@ def receive():
                 homeAccess = bool(msg["access"])
                 accessGranted(access = homeAccess)
                 print(homeAccess)
+
+            # Recieve msg
             elif msg["to"] == superuser:
                 print(msg['msg'])
+                
+            # Resiver Going Offline
+            elif msg["to"] == "offline":
+                print(msg["msg"])
+            elif msg["to"] == "aiReply":
+                print(msg["msg"])
 
         except OSError:
             break
@@ -73,24 +81,26 @@ def send(event = None, data = ""):
     client.send(encrypt(data, password))
 
 def sentMsg(msg):
-    smsg={'to':'zla','msg':msg,"from":superuser}
+    smsg={'to':'//helpCenter','msg':msg,"from":superuser}
     smsg = json.dumps(smsg)
     send(data = smsg)
 
 # Signup Password validation
 def signupAccount(username, ps, reps, email):
     if username and ps and reps and email :
-        if len(ps) >= 8 :
-            if ps == reps :
-                newPassword = myHash(ps)
-                data = {"to":"signup", "username":username, "ps":newPassword, "email":email}
-                send(data = json.dumps(data))
+        if "/" not in username:
+            if "@" in email:
+                if len(ps) >= 8 :
+                    if ps == reps :
+                        newPassword = myHash(ps)
+                        data = {"to":"//signup", "username":username, "ps":newPassword, "email":email}
+                        send(data = json.dumps(data))
                 
 # Try Login Access 
 def loginAccount(username, ps):
     global superuser
     superuser = username
-    data = {"to":"login", "username":username, "ps":myHash(ps)}
+    data = {"to":"//login", "username":username, "ps":myHash(ps)}
     send(data = json.dumps(data))
 
 # Access Granted
@@ -112,7 +122,6 @@ client.connect(addr)
 receiveThread = Thread(target = receive)
 receiveThread.start()
 #-----------------------------------------------------------------------------------------
-
 
 root = Tk()
 root.title("Whisper")
@@ -229,7 +238,6 @@ def homeFrame():
     navigationFrame()
     chatFrame()
    
-
 def navigationFrame():
     global navFrame
     global user_list
